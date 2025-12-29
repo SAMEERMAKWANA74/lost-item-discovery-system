@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Report Item | Lost Item Discovery System</title>
+  <link rel="stylesheet" href="./styling/report.css">
+</head>
+<body>
+
+  <header class="hero">
+    <h1>Report Lost or Found Item</h1>
+    <p>Provide accurate information to help recover the item quickly</p>
+  </header>
+
+  <main class="container">
+    <form class="report-form" method="post">
+
+      <div class="form-group">
+        <label>Item Type</label>
+        <select required>
+          <option value="">Select</option>
+          <option value="lost">Lost Item</option>
+          <option value="found">Found Item</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Item Name</label>
+        <input type="text" placeholder="e.g. Wallet, Mobile Phone" required>
+      </div>
+
+      <div class="form-group">
+        <label>Category</label>
+        <select required>
+          <option value="">Select category</option>
+          <option>Electronics</option>
+          <option>Documents</option>
+          <option>Accessories</option>
+          <option>Clothing</option>
+          <option>Others</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" placeholder="Where was it lost or found?" required>
+      </div>
+
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea placeholder="Color, brand, unique marks, etc." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Contact Information</label>
+        <input type="text" placeholder="Phone number or email" required>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Report</button>
+
+    </form>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 Lost Item Discovery System</p>
+  </footer>
+
+</body>
+</html>
