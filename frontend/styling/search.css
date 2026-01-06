@@ -1,0 +1,163 @@
+/* =========================
+   Reset & Variables
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --bg-main: #f9fafb;
+  --bg-card: #ffffff;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --radius: 12px;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+/* =========================
+   Header
+========================= */
+.hero {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: white;
+  text-align: center;
+  padding: 70px 20px;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  opacity: 0.9;
+}
+
+/* =========================
+   Layout
+========================= */
+.container {
+  max-width: 1100px;
+  margin: -40px auto 60px;
+  padding: 0 20px;
+}
+
+/* =========================
+   Search Box
+========================= */
+.search-box {
+  background: var(--bg-card);
+  padding: 25px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.search-box input,
+.search-box select {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.search-box input:focus,
+.search-box select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.search-box button {
+  padding: 12px 20px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.search-box button:hover {
+  background-color: var(--primary-dark);
+}
+
+/* =========================
+   Results Table
+========================= */
+.results {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.results h2 {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #f3f4f6;
+}
+
+th, td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+th {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.view-btn {
+  text-decoration: none;
+  padding: 8px 14px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.view-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+/* =========================
+   Footer
+========================= */
+.footer {
+  text-align: center;
+  padding: 25px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 900px) {
+  .search-box {
+    grid-template-columns: 1fr;
+  }
+}
