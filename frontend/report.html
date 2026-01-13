@@ -7,32 +7,37 @@
 </head>
 <body>
 
-  <header class="hero">
-    <h1>Report Lost or Found Item</h1>
-    <p>Provide accurate information to help recover the item quickly</p>
-  </header>
+<!-- HERO -->
+<header class="hero">
+  <h1>Report Lost or Found Item</h1>
+  <p>Help us reconnect items with their rightful owners</p>
+</header>
 
-  <main class="container">
-    <form class="report-form" method="post">
+<!-- FORM -->
+<main class="container">
+  <form class="report-form">
 
+    <h2>Item Details</h2>
+
+    <div class="form-grid">
       <div class="form-group">
         <label>Item Type</label>
         <select required>
           <option value="">Select</option>
-          <option value="lost">Lost Item</option>
-          <option value="found">Found Item</option>
+          <option>Lost Item</option>
+          <option>Found Item</option>
         </select>
       </div>
 
       <div class="form-group">
         <label>Item Name</label>
-        <input type="text" placeholder="e.g. Wallet, Mobile Phone" required>
+        <input type="text" placeholder="Wallet, Phone, Bag" required>
       </div>
 
       <div class="form-group">
         <label>Category</label>
         <select required>
-          <option value="">Select category</option>
+          <option value="">Select</option>
           <option>Electronics</option>
           <option>Documents</option>
           <option>Accessories</option>
@@ -42,33 +47,72 @@
       </div>
 
       <div class="form-group">
-        <label>Location</label>
-        <input type="text" placeholder="Where was it lost or found?" required>
-      </div>
-
-      <div class="form-group">
         <label>Date</label>
         <input type="date" required>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label>Description</label>
-        <textarea placeholder="Color, brand, unique marks, etc." required></textarea>
-      </div>
+    <div class="form-group">
+      <label>Location</label>
+      <input type="text" placeholder="Where was it lost or found?" required>
+    </div>
 
-      <div class="form-group">
-        <label>Contact Information</label>
-        <input type="text" placeholder="Phone number or email" required>
-      </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea placeholder="Color, brand, unique marks..." required></textarea>
+    </div>
 
-      <button type="submit" class="submit-btn">Submit Report</button>
+    <div class="form-group">
+      <label>Unique Identification Detail</label>
+      <input type="text" placeholder="Serial number, sticker text, special mark" required>
+    </div>
 
-    </form>
-  </main>
+    <div class="form-group">
+      <label>Upload Item Image (optional)</label>
+      <input type="file" accept="image/*">
+    </div>
 
-  <footer class="footer">
-    <p>© 2025 Lost Item Discovery System</p>
-  </footer>
+    <h2>Contact Information</h2>
+
+    <div class="form-group">
+      <label>Phone Number or Email</label>
+      <input type="text" placeholder="example@email.com" required>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit Report</button>
+
+  </form>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+
+    <div>
+      <h4>Lost Item System</h4>
+      <p>Helping people find lost belongings easily.</p>
+    </div>
+
+    <div>
+      <h4>Quick Links</h4>
+      <a href="report.html">Report Item</a>
+      <a href="search.html">Search Items</a>
+      <a href="claim.html">Claim Item</a>
+    </div>
+
+    <div>
+      <h4>Support</h4>
+      <a href="contact.html">Contact</a>
+      <a href="#">FAQs</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+
+  </div>
+
+  <p class="footer-bottom">
+    © 2026 Lost Item Discovery System  By Milan Makwana & Sameer Makwana
+  </p>
+</footer>
 
 </body>
 </html>

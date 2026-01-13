@@ -3,90 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <title>Search Items | Lost Item Discovery System</title>
-<link rel="stylesheet" href="./styling/search.css">
+  <link rel="stylesheet" href="./styling/search.css">
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="hero">
-    <h1>Search Lost & Found Items</h1>
-    <p>Find reported items quickly using filters</p>
-  </header>
+<!-- HERO -->
+<header class="hero">
+  <h1>Search Lost & Found Items</h1>
+  <p>Find matching items reported by others</p>
+</header>
 
-  <!-- Search Section -->
-  <main class="container">
+<!-- CONTENT -->
+<main class="container">
 
-    <!-- Filters -->
-    <section class="search-box">
-      <input type="text" placeholder="Search by item name or keyword">
+  <!-- FILTERS -->
+  <section class="search-box">
+    <input type="text" placeholder="Search item name or keyword">
 
-      <select>
-        <option value="">Category</option>
-        <option>Electronics</option>
-        <option>Documents</option>
-        <option>Accessories</option>
-        <option>Clothing</option>
-        <option>Others</option>
-      </select>
+    <select>
+      <option value="">Category</option>
+      <option>Electronics</option>
+      <option>Documents</option>
+      <option>Accessories</option>
+      <option>Clothing</option>
+      <option>Others</option>
+    </select>
 
-      <select>
-        <option value="">Item Types</option>
-        <option>Lost</option>
-        <option>Found</option>
-      </select>
+    <select>
+      <option value="">Item Type</option>
+      <option>Lost</option>
+      <option>Found</option>
+    </select>
 
-      <button>Search</button>
-    </section>
+    <button>Search</button>
+  </section>
 
-    <!-- Results -->
-    <section class="results">
-      <h2>Search Results</h2>
+  <!-- RESULTS -->
+  <section class="results">
+    <h2>Search Results</h2>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Category</th>
-            <th>Type</th>
-            <th>Location</th>
-            <th>Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+    <div class="results-grid">
 
-        <tbody>
-          <tr>
-            <td>Black Wallet</td>
-            <td>Accessories</td>
-            <td>Lost</td>
-            <td>Main Gate</td>
-            <td>12-05-2025</td>
-            <td>
-              <a href="item-details.html" class="view-btn">View</a>
-            </td>
-          </tr>
+      <div class="result-card">
+        <h3>Black Wallet</h3>
+        <p><strong>Category:</strong> Accessories</p>
+        <p><strong>Type:</strong> Lost</p>
+        <p><strong>Location:</strong> Main Gate</p>
+        <p><strong>Date:</strong> 12-05-2025</p>
+        <a href="item-details.html" class="view-btn">View Details</a>
+      </div>
 
-          <tr>
-            <td>Samsung Phone</td>
-            <td>Electronics</td>
-            <td>Found</td>
-            <td>Library</td>
-            <td>14-03-2025</td>
-            <td>
-              <a href="item-details.html" class="view-btn">View</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="result-card">
+        <h3>Samsung Phone</h3>
+        <p><strong>Category:</strong> Electronics</p>
+        <p><strong>Type:</strong> Found</p>
+        <p><strong>Location:</strong> Library</p>
+        <p><strong>Date:</strong> 14-03-2025</p>
+        <a href="item-details.html" class="view-btn">View Details</a>
+      </div>
 
-    </section>
+    </div>
+  </section>
 
-  </main>
+</main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>© 2025 Lost Item Discovery System</p>
-  </footer>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+
+    <div>
+      <h4>Lost Item System</h4>
+      <p>Helping people recover lost belongings easily.</p>
+    </div>
+
+    <div>
+      <h4>Quick Links</h4>
+      <a href="report.html">Report Item</a>
+      <a href="search.html">Search Items</a>
+      <a href="claim.html">Claim Item</a>
+    </div>
+
+    <div>
+      <h4>Support</h4>
+      <a href="contact.html">Contact</a>
+      <a href="#">FAQs</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+
+  </div>
+
+  <p class="footer-bottom">
+    © 2026 Lost Item Discovery System  By Milan Makwana & Sameer Makwana
+  </p>
+</footer>
 
 </body>
 </html>
