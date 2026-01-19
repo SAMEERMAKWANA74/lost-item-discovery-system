@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Lost Item Discovery System</title>
+  <link rel="stylesheet" href="./styling/adminhome.css" />
+</head>
+<body>
+
+  <!-- ADMIN NAVBAR -->
+  <header class="admin-navbar">
+    <div class="logo">LIDS Admin</div>
+    <div class="admin-profile">
+      <span>Sameer</span>
+      <img src="https://tse4.mm.bing.net/th/id/OIP.3UPEQet6mcGYsz77Oi7RkQHaHa?pid=Api&P=0&h=180" alt="Admin" />
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <a href="#" class="active">Dashboard</a>
+      <a href="reported_item.html">Reported Items</a>
+      <a href="#">Claim Requests</a>
+      <a href="users.html">Users</a>
+      <a href="#">Settings</a>
+      <a href="#" class="logout">Logout</a>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content">
+      <h1>Dashboard Overview</h1>
+      <p class="subtitle">Quick insights of the system</p>
+
+      <!-- STATS -->
+      <section class="stats">
+        <div class="stat-card">
+          <h3>Total Reports</h3>
+          <p>128</p>
+        </div>
+        <div class="stat-card">
+          <h3>Pending Claims</h3>
+          <p>24</p>
+        </div>
+        <div class="stat-card">
+          <h3>Resolved Items</h3>
+          <p>79</p>
+        </div>
+        <div class="stat-card">
+          <h3>Users</h3>
+          <p>56</p>
+        </div>
+      </section>
+
+      <!-- RECENT ACTIVITY -->
+      <section class="activity">
+        <h2>Recent Activity</h2>
+        <ul>
+          <li>New lost item reported</li>
+          <li>Claim request submitted</li>
+          <li>Item successfully resolved</li>
+          <li>New user registered</li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+</body>
+</html>

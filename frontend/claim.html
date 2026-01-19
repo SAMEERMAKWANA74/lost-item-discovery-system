@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claim Lost Item | Lost Item Discovery System</title>
+  <link rel="stylesheet" href="./styling/claim.css" />
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Claim Your Lost Item</h1>
+    <p>Verify ownership and recover your belongings securely</p>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="container">
+    <div class="claim-card">
+
+      <h2>Claim Lost Item</h2>
+      <p>Please provide accurate details to verify your ownership.</p>
+
+      <form class="claim-form" action="#" method="post">
+
+        <div class="form-group">
+          <label for="itemId">Item ID / Reference Number</label>
+          <input type="text" id="itemId" name="itemId" placeholder="Enter item ID" required />
+        </div>
+
+        <div class="form-group">
+          <label for="itemName">Item Name</label>
+          <input type="text" id="itemName" name="itemName" placeholder="e.g. Wallet, Phone" required />
+        </div>
+
+        <div class="form-group">
+          <label for="lostDate">Date Lost</label>
+          <input type="date" id="lostDate" name="lostDate" required />
+        </div>
+
+        <div class="form-group">
+          <label for="lostLocation">Lost Location</label>
+          <input type="text" id="lostLocation" name="lostLocation" placeholder="e.g. Bus Stand, Campus" required />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Item Description</label>
+          <textarea id="description" name="description" rows="4"
+            placeholder="Color, brand, special marks" required></textarea>
+        </div>
+
+        <div class="form-section">
+          <h3>Claimant Details</h3>
+
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Your full name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="example@mail.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number" required />
+          </div>
+
+          <div class="form-group">
+            <label for="identityProof">Upload Identity Proof</label>
+            <input type="file" id="identityProof" name="identityProof"
+              accept="image/*,application/pdf" />
+          </div>
+        </div>
+
+        <div class="form-group checkbox">
+          <input type="checkbox" id="confirm" required />
+          <label for="confirm">
+            I confirm that the above information is true and correct
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">Submit Claim</button>
+          <button type="reset" class="reset">Reset</button>
+        </div>
+
+      </form>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      &copy; 2026 Lost Item Discovery System. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>

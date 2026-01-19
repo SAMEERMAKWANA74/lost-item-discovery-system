@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Users | Admin Panel - Lost Item Discovery System</title>
+  <link rel="stylesheet" href="./styling/users.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+
+  <header class="main-header">
+    <h1>Admin Panel</h1>
+    <p>Manage registered users</p>
+  </header>
+
+  <!-- MAIN CONTENT -->
+
+  <main class="container">
+
+```
+<div class="page-title">
+  <h2>Registered Users</h2>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search by name or email">
+    <button>Search</button>
+  </div>
+</div>
+
+<!-- USERS TABLE -->
+<div class="table-card">
+  <table>
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>U001</td>
+        <td>Sameer Makwana</td>
+        <td>sameer@email.com</td>
+        <td>9876543210</td>
+        <td>User</td>
+        <td><span class="status active">Active</span></td>
+        <td>
+          <button class="action-btn view">View</button>
+          <button class="action-btn block">Block</button>
+        </td>
+      </tr>
+
+      <tr>
+        <td>U002</td>
+        <td>Milan Makwana</td>
+        <td>milan@email.com</td>
+        <td>9123456789</td>
+        <td>Admin</td>
+        <td><span class="status active">Active</span></td>
+        <td>
+          <button class="action-btn view">View</button>
+          <button class="action-btn block">Block</button>
+        </td>
+      </tr>
+
+      <tr>
+        <td>U003</td>
+        <td>Rahul Patel</td>
+        <td>rahul@email.com</td>
+        <td>9988776655</td>
+        <td>User</td>
+        <td><span class="status blocked">Blocked</span></td>
+        <td>
+          <button class="action-btn view">View</button>
+          <button class="action-btn unblock">Unblock</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+  </main>
+
+  <!-- FOOTER -->
+
+  <footer class="main-footer">
+    <p>© 2026 Lost Item Discovery System | Admin Panel</p>
+  </footer>
+
+</body>
+</html>
