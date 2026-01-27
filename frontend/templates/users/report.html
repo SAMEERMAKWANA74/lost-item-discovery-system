@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Report Item | Lost Item Discovery System</title>
-  <link rel="stylesheet" href="./styling/report.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='user_styling/report.css') }}">
 </head>
 <body>
 
@@ -15,28 +15,28 @@
 
 <!-- FORM -->
 <main class="container">
-  <form class="report-form">
+  <form class="report-form" method="POST" action="/report" enctype="multipart/form-data">
 
     <h2>Item Details</h2>
 
     <div class="form-grid">
       <div class="form-group">
         <label>Item Type</label>
-        <select required>
+        <select name="item_type" required>
           <option value="">Select</option>
-          <option>Lost Item</option>
-          <option>Found Item</option>
+          <option value="Lost">Lost Item</option>
+          <option value="Found">Found Item</option>
         </select>
       </div>
 
       <div class="form-group">
         <label>Item Name</label>
-        <input type="text" placeholder="Wallet, Phone, Bag" required>
+        <input type="text" name="item_name" placeholder="Wallet, Phone, Bag" required>
       </div>
 
       <div class="form-group">
         <label>Category</label>
-        <select required>
+        <select name="category" required>
           <option value="">Select</option>
           <option>Electronics</option>
           <option>Documents</option>
@@ -48,35 +48,35 @@
 
       <div class="form-group">
         <label>Date</label>
-        <input type="date" required>
+        <input type="date" name="item_date" required>
       </div>
     </div>
 
     <div class="form-group">
       <label>Location</label>
-      <input type="text" placeholder="Where was it lost or found?" required>
+      <input type="text" name="location" placeholder="Where was it lost or found?" required>
     </div>
 
     <div class="form-group">
       <label>Description</label>
-      <textarea placeholder="Color, brand, unique marks..." required></textarea>
+      <textarea name="description" placeholder="Color, brand, unique marks..." required></textarea>
     </div>
 
     <div class="form-group">
       <label>Unique Identification Detail</label>
-      <input type="text" placeholder="Serial number, sticker text, special mark" required>
+      <input type="text" name="unique_id" placeholder="Serial number, sticker text, special mark" required>
     </div>
 
     <div class="form-group">
       <label>Upload Item Image (optional)</label>
-      <input type="file" accept="image/*">
+      <input type="file" name="image" accept="image/*">
     </div>
 
     <h2>Contact Information</h2>
 
     <div class="form-group">
       <label>Phone Number or Email</label>
-      <input type="text" placeholder="example@email.com" required>
+      <input type="text" name="contact" placeholder="example@email.com" required>
     </div>
 
     <button type="submit" class="submit-btn">Submit Report</button>
@@ -95,14 +95,14 @@
 
     <div>
       <h4>Quick Links</h4>
-      <a href="report.html">Report Item</a>
-      <a href="search.html">Search Items</a>
-      <a href="claim.html">Claim Item</a>
+      <a href="/report">Report Item</a>
+      <a href="/search">Search Items</a>
+      <a href="/claim">Claim Item</a>
     </div>
 
     <div>
       <h4>Support</h4>
-      <a href="contact.html">Contact</a>
+      <a href="/contact">Contact</a>
       <a href="#">FAQs</a>
       <a href="#">Privacy Policy</a>
     </div>
@@ -110,7 +110,7 @@
   </div>
 
   <p class="footer-bottom">
-    © 2026 Lost Item Discovery System  By Milan Makwana & Sameer Makwana
+    © 2026 Lost Item Discovery System — By Milan Makwana & Sameer Makwana
   </p>
 </footer>
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard | Lost Item Discovery System</title>
-  <link rel="stylesheet" href="./styling/adminhome.css" />
+<link rel="stylesheet" href="{{ url_for('static', filename='admin_styling/adminhome.css') }}">
 </head>
 <body>
 
@@ -21,14 +21,17 @@
   <div class="admin-layout">
 
     <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <a href="#" class="active">Dashboard</a>
-      <a href="reported_item.html">Reported Items</a>
-      <a href="#">Claim Requests</a>
-      <a href="users.html">Users</a>
-      <a href="#">Settings</a>
-      <a href="#" class="logout">Logout</a>
-    </aside>
+<aside class="sidebar">
+  <a href="{{ url_for('admin_dashboard') }}" class="active">Dashboard</a>
+  
+  <a href="{{ url_for('reported_items_page') }}">Reported Items</a>     
+  
+  <a href="{{ url_for('users_page') }}">Users</a>
+  
+  <a href="#">Claim Requests</a>
+  <a href="#">Settings</a>
+  <a href="{{ url_for('home') }}" class="logout">Logout</a>
+</aside>
 
     <!-- CONTENT -->
     <main class="content">
