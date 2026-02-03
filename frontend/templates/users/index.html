@@ -3,74 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <title>Lost Item Discovery System</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='user_styling/index.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='user_styling/index.css') }}">
 </head>
 <body>
 
-<!-- NAVBAR --><nav class="navbar">
+<nav class="navbar">
   <div class="logo">LIDS</div>
 
   <div class="nav-links">
-    <a href="{{ url_for('user_dashboard') }}" class="active">Home</a>
-    <a href="{{ url_for('report_item') }}">Report</a>
-    <a href="{{ url_for('search_item') }}">Search</a>
-    <a href="{{ url_for('claim_item') }}">Claim</a>
-    <a href="{{ url_for('contact_us') }}">Contact</a>
+    <a href="{{ url_for('user.user_dashboard') }}" class="active">Home</a>
+    <a href="{{ url_for('user.report_item') }}">Report</a>
+    <a href="{{ url_for('search.search_item') }}">Search</a>
+    <a href="{{ url_for('user.claim_item') }}">Claim</a>
+    <a href="{{ url_for('user.contact_us') }}">Contact</a>
   </div>
 
   <div class="nav-auth">
     {% if session.get('email') %}
-      <a href="{{ url_for('logout') }}" class="login-btn">Logout</a>
+      <a href="{{ url_for('auth.logout') }}" class="login-btn">Logout</a>
     {% else %}
-      <a href="{{ url_for('home') }}" class="login-btn">Login</a>
-      <a href="{{ url_for('signup') }}" class="register-btn">Register</a>
+      <a href="{{ url_for('auth.home') }}" class="login-btn">Login</a>
+      <a href="{{ url_for('auth.signup') }}" class="register-btn">Register</a>
     {% endif %}
   </div>
 </nav>
 
-<!-- HERO SECTION -->
 <header class="hero">
   <h1>Lost Item Discovery System</h1>
   <p>Report, search and recover lost items easily in one place</p>
 
   <div class="hero-actions">
-    <a href="report.html" class="primary-btn">Report Item</a>
-    <a href="search.html" class="secondary-btn">Search Items</a>
+    <a href="{{ url_for('user.report_item') }}" class="primary-btn">Report Item</a>
+    <a href="{{ url_for('search.search_item') }}" class="secondary-btn">Search Items</a>
   </div>
 </header>
 
-<!-- HOW IT WORKS -->
 <section class="how-it-works">
   <h2>How It Works</h2>
 
   <div class="steps">
     <div class="step-card">
-    <!-- <img src="./images/pin.jpeg" alt="Claim Item" class="step-icon"> -->
-     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
-<dotlottie-wc src="https://lottie.host/d50f3516-cd33-4dfe-8454-6a29ce559d42/5G30PkPDu4.lottie" style="inline-size: 300px;block-size: 300px" autoplay loop></dotlottie-wc>
+      <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
+      <dotlottie-wc src="https://lottie.host/d50f3516-cd33-4dfe-8454-6a29ce559d42/5G30PkPDu4.lottie" style="inline-size: 300px;block-size: 300px" autoplay loop></dotlottie-wc>
       <h3>Report Item</h3>
       <p>Submit details of lost or found items</p>
     </div>
 
     <div class="step-card">
-    <!-- <img src="./images/search.jpeg" alt="Claim Item" class="step-icon"> -->
-     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
-<dotlottie-wc src="https://lottie.host/a72c2fbd-8743-4bd6-bd02-7584f1a1fa6d/bXvBFQ3c7M.lottie" style="inline-size: 300px;block-size: 300px" autoplay loop></dotlottie-wc>
+      <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
+      <dotlottie-wc src="https://lottie.host/a72c2fbd-8743-4bd6-bd02-7584f1a1fa6d/bXvBFQ3c7M.lottie" style="inline-size: 300px;block-size: 300px" autoplay loop></dotlottie-wc>
       <h3>Search Items</h3>
       <p>Find matching items using keywords</p>
     </div>
 
     <div class="step-card">
-    <!-- <img src="./images/tick.jpeg" alt="Claim Item" class="step-icon"> -->
-     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
-<dotlottie-wc src="https://lottie.host/adbed742-16a8-4c4b-96f2-ca07fbde2a59/jcTXHkqrsx.lottie" style="inline-size: 300px;block-size: 300px" autoplay loop></dotlottie-wc>
+      <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
+      <dotlottie-wc src="https://lottie.host/adbed742-16a8-4c4b-96f2-ca07fbde2a59/jcTXHkqrsx.lottie" style="inline-size: 300px;block-size: 300px" autoplay loop></dotlottie-wc>
       <h3>Claim Item</h3>
       <p>Verify ownership and recover your item</p>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-grid">
 
@@ -81,14 +75,14 @@
 
     <div>
       <h4>Quick Links</h4>
-      <a href="report.html">Report Item</a>
-      <a href="search.html">Search Items</a>
-      <a href="claim.html">Claim Item</a>
+      <a href="{{ url_for('user.report_item') }}">Report Item</a>
+      <a href="{{ url_for('search.search_item') }}">Search Items</a>
+      <a href="{{ url_for('user.claim_item') }}">Claim Item</a>
     </div>
 
     <div>
       <h4>Support</h4>
-      <a href="contact.html">Contact Us</a>
+      <a href="{{ url_for('user.contact_us') }}">Contact Us</a>
       <a href="#">FAQs</a>
       <a href="#">Privacy Policy</a>
     </div>
@@ -96,7 +90,7 @@
   </div>
 
   <p class="footer-bottom">
-    © 2026 Lost Item Discovery System  By Milan Makwana & Sameer Makwana
+    © 2026 Lost Item Discovery System By Milan Makwana & Sameer Makwana
   </p>
 </footer>
 

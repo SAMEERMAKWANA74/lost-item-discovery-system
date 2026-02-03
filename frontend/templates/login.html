@@ -10,10 +10,10 @@
     <nav class="navbar">
         <div class="logo">Lost Recovery Item</div>
         <div class="nav-links">
-            <a href="{{ url_for('home') }}" class="active">Home</a>
+            <a href="{{ url_for('auth.home') }}" class="active">Home</a>
             <a href="#">Report Item</a>
             <a href="#">Search</a>
-            <a href="{{ url_for('signup') }}">Register</a>
+            <a href="{{ url_for('auth.signup') }}">Register</a>
         </div>
     </nav>
 
@@ -32,7 +32,7 @@
             <h2>Welcome Back 👋</h2>
             <p class="subtitle">Login to manage lost & recovered items</p>
 
-            <form method="POST" action="{{ url_for('login') }}">
+            <form method="POST" action="{{ url_for('auth.login') }}">
                 <div class="input-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" placeholder="you@example.com" required>
@@ -46,8 +46,8 @@
                 <button type="submit" class="btn">Login</button>
 
                 <p class="bottom-text">
-                    Don’t have an account? 
-                    <a href="{{ url_for('signup') }}">Register here</a>
+                    Don’t have an account?
+                    <a href="{{ url_for('auth.signup') }}">Register here</a>
                 </p>
             </form>
         </div>

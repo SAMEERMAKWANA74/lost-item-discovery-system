@@ -3,98 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <title>Item Details | Lost Item Discovery System</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='user_styling/item-details.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='user_styling/item-details.css') }}">
 </head>
 <body>
 
-<!-- HERO -->
 <header class="hero">
   <h1>Item Details</h1>
   <p>Review information carefully before claiming the item</p>
 </header>
 
-<!-- CONTENT -->
 <main class="container">
-
   <section class="item-card">
-
-    <!-- IMAGE -->
-    <div class="item-image">
-      <span>No Image Available</span>
-    </div>
-
-    <!-- DETAILS -->
+<div class="item-image">
+    {% if item.image_path %}
+        {% if 'uploads/' in item.image_path %}
+            {# If the path already has 'uploads/', don't add it again #}
+            <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.item_name }}">
+        {% else %}
+            {# This is for your new, correct data #}
+            <img src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="{{ item.item_name }}">
+        {% endif %}
+    {% else %}
+        <span>No Image Available</span>
+    {% endif %}
+</div>
     <div class="item-info">
-      <h2>Black Leather Wallet</h2>
+      <h2>{{ item.item_name }}</h2>
 
-      <div class="badge lost">Lost Item</div>
+      <div class="badge {{ item.item_type|lower }}">{{ item.item_type }} Item</div>
 
       <div class="info-grid">
         <div>
           <span>Category</span>
-          <p>Accessories</p>
+          <p>{{ item.category }}</p>
         </div>
         <div>
           <span>Location</span>
-          <p>Main Gate</p>
+          <p>{{ item.location }}</p>
         </div>
         <div>
           <span>Date Reported</span>
-          <p>12 March 2025</p>
+          <p>{{ item.lost_date }}</p>
         </div>
         <div>
           <span>Status</span>
-          <p>Unclaimed</p>
+          <p style="text-transform: capitalize;">{{ item.status }}</p>
         </div>
       </div>
 
       <div class="description">
         <span>Description</span>
-        <p>
-          Black leather wallet containing ID cards and ATM cards.
-          The wallet has a small tear on the left corner and initials
-          engraved inside.
-        </p>
+        <p>{{ item.description }}</p>
+        {% if item.unique_mark %}
+          <br>
+          
+        {% endif %}
       </div>
 
       <div class="actions">
-        <a href="claim.html" class="claim-btn">Claim This Item</a>
-        <a href="search.html" class="back-btn">Back to Search</a>
+        <a href="{{ url_for('user.claim_item', item_id=item.item_id) }}" class="claim-btn">Claim This Item</a>
+        <a href="{{ url_for('search.search_item') }}" class="back-btn">Back to Search</a>
       </div>
-
     </div>
-
   </section>
-
 </main>
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-grid">
-
     <div>
       <h4>Lost Item System</h4>
       <p>Helping people reconnect with their lost belongings.</p>
     </div>
-
     <div>
       <h4>Quick Links</h4>
-      <a href="report.html">Report Item</a>
-      <a href="search.html">Search Items</a>
-      <a href="claim.html">Claim Item</a>
+      <a href="{{ url_for('user.report_item') }}">Report Item</a>
+      <a href="{{ url_for('search.search_item') }}">Search Items</a>
+      <a href="{{ url_for('user.claim_item') }}">Claim Item</a>
     </div>
-
-    <div>
-      <h4>Support</h4>
-      <a href="contact.html">Contact</a>
-      <a href="#">FAQs</a>
-      <a href="#">Privacy Policy</a>
-    </div>
-
   </div>
-
   <p class="footer-bottom">
-    © 2026 Lost Item Discovery System  By Milan Makwana & Sameer Makwana
+    © 2026 Lost Item Discovery System By Milan Makwana & Sameer Makwana
   </p>
 </footer>
 

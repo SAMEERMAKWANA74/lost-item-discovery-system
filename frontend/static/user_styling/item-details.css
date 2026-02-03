@@ -6,6 +6,8 @@
   --text: #111827;
   --muted: #6b7280;
   --border: #e5e7eb;
+  --found: #10b981;
+  --lost: #ef4444;
 }
 
 /* RESET */
@@ -19,6 +21,7 @@ body {
   font-family: Inter, system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
+  line-height: 1.5;
 }
 
 /* HERO */
@@ -52,36 +55,57 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,0.08);
   padding: 45px;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1.5fr; /* Adjusted for better balance */
   gap: 45px;
+  align-items: start;
 }
 
-/* IMAGE */
+/* IMAGE FIXES */
 .item-image {
   background: #f3f4f6;
   border-radius: 16px;
-  min-height: 280px;
+  height: 400px; /* Fixed height for consistency */
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--muted);
   font-size: 0.95rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  /* Use 'contain' to see the whole item, or 'cover' to fill the box */
+  object-fit: contain; 
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.item-image:hover img {
+  transform: scale(1.02); /* Subtle zoom effect on hover */
 }
 
 /* INFO */
 .item-info h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 10px;
+  color: var(--text);
+  text-transform: capitalize;
 }
 
 /* BADGE */
 .badge {
   display: inline-block;
   margin-bottom: 25px;
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .badge.lost {
@@ -89,23 +113,35 @@ body {
   color: #b91c1c;
 }
 
+.badge.found {
+  background: #d1fae5;
+  color: #065f46;
+}
+
 /* GRID */
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 24px;
   margin-bottom: 30px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .info-grid span {
   font-size: 0.75rem;
   text-transform: uppercase;
   color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .info-grid p {
   font-weight: 600;
   margin-top: 4px;
+  font-size: 1rem;
+  color: var(--text);
 }
 
 /* DESCRIPTION */
@@ -113,49 +149,60 @@ body {
   font-size: 0.75rem;
   text-transform: uppercase;
   color: var(--muted);
+  font-weight: 600;
 }
 
 .description p {
   margin-top: 8px;
-  line-height: 1.6;
-  font-size: 0.95rem;
+  line-height: 1.7;
+  font-size: 1rem;
+  color: #4b5563;
 }
 
 /* ACTIONS */
 .actions {
-  margin-top: 35px;
+  margin-top: 40px;
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
 }
 
 .claim-btn {
-  padding: 14px 28px;
+  padding: 16px 32px;
   background: var(--primary);
   color: white;
   border-radius: 12px;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
 .claim-btn:hover {
   background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4);
 }
 
 .back-btn {
-  padding: 14px 26px;
+  padding: 16px 30px;
   border-radius: 12px;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   text-decoration: none;
   color: var(--text);
   font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #f3f4f6;
 }
 
 /* FOOTER */
 .footer {
   background: #111827;
   color: #d1d5db;
-  padding: 60px 30px 30px;
+  padding: 80px 30px 40px;
 }
 
 .footer-grid {
@@ -163,19 +210,22 @@ body {
   margin: auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
+  gap: 40px;
 }
 
 .footer h4 {
   color: white;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
 }
 
 .footer a {
   display: block;
-  color: #d1d5db;
+  color: #9ca3af;
   text-decoration: none;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
 }
 
 .footer a:hover {
@@ -184,8 +234,11 @@ body {
 
 .footer-bottom {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 1px solid #374151;
   font-size: 0.85rem;
+  color: #6b7280;
 }
 
 /* RESPONSIVE */
@@ -193,5 +246,14 @@ body {
   .item-card {
     grid-template-columns: 1fr;
     padding: 30px;
+    gap: 30px;
+  }
+  
+  .item-image {
+    height: 300px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
   }
 }

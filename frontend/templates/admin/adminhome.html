@@ -22,15 +22,14 @@
 
     <!-- SIDEBAR -->
 <aside class="sidebar">
-  <a href="{{ url_for('admin_dashboard') }}" class="active">Dashboard</a>
-  
-  <a href="{{ url_for('reported_items_page') }}">Reported Items</a>     
-  
-  <a href="{{ url_for('users_page') }}">Users</a>
+  <a href="{{ url_for('admin.admin_dashboard') }}" class="active">Dashboard</a>
+  <a href="{{ url_for('admin.reported_items_page') }}">Reported Items</a>
+  <a href="{{ url_for('admin.users_page') }}">Users</a>
   
   <a href="#">Claim Requests</a>
   <a href="#">Settings</a>
-  <a href="{{ url_for('home') }}" class="logout">Logout</a>
+  
+  <a href="{{ url_for('auth.logout') }}" class="logout">Logout</a>
 </aside>
 
     <!-- CONTENT -->
