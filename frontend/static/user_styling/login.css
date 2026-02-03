@@ -1,0 +1,132 @@
+:root {
+  --primary: #4f46e5;
+  --dark: #111827;
+  --gray: #6b7280;
+  --bg: #f9fafb;
+  --white: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  background: var(--white);
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.nav-links a {
+  margin-left: 25px;
+  text-decoration: none;
+  color: var(--gray);
+  font-weight: 500;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+/* ================= LOGIN ================= */
+.login-container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-card {
+  background: var(--white);
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.login-card h2 {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--gray);
+  margin-bottom: 25px;
+}
+
+/* INPUTS */
+.input-group {
+  margin-bottom: 18px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: var(--dark);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 15px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* BUTTON */
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* BOTTOM TEXT */
+.bottom-text {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.bottom-text a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}

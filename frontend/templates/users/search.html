@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Search Items | Lost Item Discovery System</title>
-  <link rel="stylesheet" href="./styling/search.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='user_styling/search.css') }}">
 </head>
 <body>
 
@@ -50,7 +50,7 @@
         <p><strong>Type:</strong> Lost</p>
         <p><strong>Location:</strong> Main Gate</p>
         <p><strong>Date:</strong> 12-05-2025</p>
-        <a href="item-details.html" class="view-btn">View Details</a>
+        <a href="{{ url_for('item_details') }}" class="view-btn">View Details</a>
       </div>
 
       <div class="result-card">
@@ -59,7 +59,7 @@
         <p><strong>Type:</strong> Found</p>
         <p><strong>Location:</strong> Library</p>
         <p><strong>Date:</strong> 14-03-2025</p>
-        <a href="item-details.html" class="view-btn">View Details</a>
+        <a href="{{ url_for('item_details') }}" class="view-btn">View Details</a>
       </div>
 
     </div>
@@ -78,14 +78,13 @@
 
     <div>
       <h4>Quick Links</h4>
-      <a href="report.html">Report Item</a>
-      <a href="search.html">Search Items</a>
-      <a href="claim.html">Claim Item</a>
+       <a href="{{ url_for('report_item') }}">Report Item</a>
+       <a href="{{ url_for('claim_item') }}">Claim Item</a>
     </div>
 
     <div>
       <h4>Support</h4>
-      <a href="contact.html">Contact</a>
+      <a href="{{ url_for('contact_us') }}">Contact</a>
       <a href="#">FAQs</a>
       <a href="#">Privacy Policy</a>
     </div>

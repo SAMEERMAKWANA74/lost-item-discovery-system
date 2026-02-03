@@ -3,25 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Lost Item Discovery System</title>
-  <link rel="stylesheet" href="./styling/index.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='user_styling/index.css') }}">
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
+<!-- NAVBAR --><nav class="navbar">
   <div class="logo">LIDS</div>
 
   <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="report.html">Report</a>
-    <a href="search.html">Search</a>
-    <a href="claim.html">Claim</a>
-    <a href="contact.html">Contact</a>
+    <a href="{{ url_for('user_dashboard') }}" class="active">Home</a>
+    <a href="{{ url_for('report_item') }}">Report</a>
+    <a href="{{ url_for('search_item') }}">Search</a>
+    <a href="{{ url_for('claim_item') }}">Claim</a>
+    <a href="{{ url_for('contact_us') }}">Contact</a>
   </div>
 
   <div class="nav-auth">
-    <a href="login.html" class="login-btn">Login</a>
-    <a href="register.html" class="register-btn">Register</a>
+    {% if session.get('email') %}
+      <a href="{{ url_for('logout') }}" class="login-btn">Logout</a>
+    {% else %}
+      <a href="{{ url_for('home') }}" class="login-btn">Login</a>
+      <a href="{{ url_for('signup') }}" class="register-btn">Register</a>
+    {% endif %}
   </div>
 </nav>
 
@@ -44,7 +47,7 @@
     <div class="step-card">
     <!-- <img src="./images/pin.jpeg" alt="Claim Item" class="step-icon"> -->
      <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
-<dotlottie-wc src="https://lottie.host/d50f3516-cd33-4dfe-8454-6a29ce559d42/5G30PkPDu4.lottie" style="width: 300px;height: 300px" autoplay loop></dotlottie-wc>
+<dotlottie-wc src="https://lottie.host/d50f3516-cd33-4dfe-8454-6a29ce559d42/5G30PkPDu4.lottie" style="inline-size: 300px;block-size: 300px" autoplay loop></dotlottie-wc>
       <h3>Report Item</h3>
       <p>Submit details of lost or found items</p>
     </div>
@@ -52,7 +55,7 @@
     <div class="step-card">
     <!-- <img src="./images/search.jpeg" alt="Claim Item" class="step-icon"> -->
      <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
-<dotlottie-wc src="https://lottie.host/a72c2fbd-8743-4bd6-bd02-7584f1a1fa6d/bXvBFQ3c7M.lottie" style="width: 300px;height: 300px" autoplay loop></dotlottie-wc>
+<dotlottie-wc src="https://lottie.host/a72c2fbd-8743-4bd6-bd02-7584f1a1fa6d/bXvBFQ3c7M.lottie" style="inline-size: 300px;block-size: 300px" autoplay loop></dotlottie-wc>
       <h3>Search Items</h3>
       <p>Find matching items using keywords</p>
     </div>
@@ -60,7 +63,7 @@
     <div class="step-card">
     <!-- <img src="./images/tick.jpeg" alt="Claim Item" class="step-icon"> -->
      <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
-<dotlottie-wc src="https://lottie.host/adbed742-16a8-4c4b-96f2-ca07fbde2a59/jcTXHkqrsx.lottie" style="width: 300px;height: 300px" autoplay loop></dotlottie-wc>
+<dotlottie-wc src="https://lottie.host/adbed742-16a8-4c4b-96f2-ca07fbde2a59/jcTXHkqrsx.lottie" style="inline-size: 300px;block-size: 300px" autoplay loop></dotlottie-wc>
       <h3>Claim Item</h3>
       <p>Verify ownership and recover your item</p>
     </div>

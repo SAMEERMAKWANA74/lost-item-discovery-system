@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Lost Recovery Item</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_styling/login.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Lost Recovery Item</div>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}" class="active">Home</a>
+            <a href="#">Report Item</a>
+            <a href="#">Search</a>
+            <a href="{{ url_for('signup') }}">Register</a>
+        </div>
+    </nav>
+
+    <section class="login-container">
+        <div class="login-card">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert" style="color: #d9534f; background: #f2dede; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #ebccd1;">
+                      {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <h2>Welcome Back 👋</h2>
+            <p class="subtitle">Login to manage lost & recovered items</p>
+
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn">Login</button>
+
+                <p class="bottom-text">
+                    Don’t have an account? 
+                    <a href="{{ url_for('signup') }}">Register here</a>
+                </p>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
