@@ -1,16 +1,22 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from db import get_connection
 from flask_bcrypt import Bcrypt
+from db import get_connection
 
-auth_bp = Blueprint("auth", __name__)
-bcrypt = Bcrypt()
+auth = Blueprint("auth", __name__)
+bcrypt = Bcrypt()   # ✅ CREATE HERE
 
-@auth_bp.route("/")
+
+@auth.record_once
+def on_load(state):
+    bcrypt.init_app(state.app)   # ✅ ATTACH TO APP
+
+
+@auth.route("/", methods=["GET"])
 def home():
     return render_template("login.html")
 
 
-@auth_bp.route("/login", methods=["GET", "POST"])
+@auth.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email_input = request.form.get("email").strip().lower()
@@ -19,19 +25,18 @@ def login():
         try:
             conn = get_connection()
             cursor = conn.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM users")
-            users = cursor.fetchall()
+
+            cursor.execute(
+                "SELECT * FROM users WHERE LOWER(email)=%s",
+                (email_input,)
+            )
+            user = cursor.fetchone()
+
             cursor.close()
             conn.close()
 
-            user = None
-            for u in users:
-                if u["email"].strip().lower() == email_input:
-                    user = u
-                    break
-
             if not user:
-                flash("❌ Email not found")
+                flash("❌ Email not found.")
                 return redirect(url_for("auth.login"))
 
             stored_hash = user["password"].replace("$2y$", "$2b$", 1)
@@ -41,48 +46,52 @@ def login():
                 session["role"] = user["role"].lower()
 
                 if session["role"] == "admin":
-                    return redirect(url_for("admin.dashboard"))
-                return redirect(url_for("user.dashboard"))
+                    return redirect(url_for("admin.admin_dashboard"))
 
-            flash("❌ Invalid password")
+                return redirect(url_for("user.user_dashboard"))
+
+            flash("❌ Invalid password.")
             return redirect(url_for("auth.login"))
 
         except Exception as e:
-            flash(f"❌ Error: {e}")
+            flash(f"❌ Database error: {e}")
             return redirect(url_for("auth.login"))
 
     return render_template("login.html")
 
 
-@auth_bp.route("/signup", methods=["GET", "POST"])
+@auth.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
         email = request.form.get("email").strip().lower()
         password = request.form.get("password").strip()
-        hashed_pw = bcrypt.generate_password_hash(password).decode()
+
+        hashed_pw = bcrypt.generate_password_hash(password).decode("utf-8")
 
         try:
             conn = get_connection()
             cursor = conn.cursor()
+
             cursor.execute(
                 "INSERT INTO users (email, password, role) VALUES (%s,%s,%s)",
                 (email, hashed_pw, "user")
             )
             conn.commit()
+
             cursor.close()
             conn.close()
 
-            flash("✅ Signup successful")
-            return redirect(url_for("auth.home"))
+            flash("✅ Signup successful. Please login.")
+            return redirect(url_for("auth.login"))
 
         except:
-            flash("❌ Signup failed")
+            flash("❌ Signup failed. Email exists.")
             return redirect(url_for("auth.signup"))
 
     return render_template("signup.html")
 
 
-@auth_bp.route("/logout")
+@auth.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("auth.home"))

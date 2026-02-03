@@ -1,44 +1,31 @@
 from flask import Blueprint, render_template, redirect, url_for, session
 
-user_bp = Blueprint("user", __name__, url_prefix="/user")
+user = Blueprint("user", __name__, url_prefix="/user")
 
-@user_bp.route("/dashboard")
-def dashboard():
-    if "email" not in session:
-        return redirect(url_for("auth.home"))
+# Helper function to check login
+def is_logged_in():
+    return "email" in session
+
+@user.route("/dashboard")
+def user_dashboard():
+    if not is_logged_in():
+        return redirect(url_for("auth.home")) 
     return render_template("users/index.html")
 
-
-@user_bp.route("/report")
-def report():
-    if "email" not in session:
+@user.route("/report")
+def report_item():
+    if not is_logged_in():
         return redirect(url_for("auth.home"))
     return render_template("users/report.html")
 
-
-@user_bp.route("/search")
-def search():
-    if "email" not in session:
-        return redirect(url_for("auth.home"))
-    return render_template("users/search.html")
-
-
-@user_bp.route("/claim")
-def claim():
-    if "email" not in session:
+@user.route("/claim")
+def claim_item():
+    if not is_logged_in():
         return redirect(url_for("auth.home"))
     return render_template("users/claim.html")
 
-
-@user_bp.route("/contact")
-def contact():
-    if "email" not in session:
+@user.route("/contact")
+def contact_us():
+    if not is_logged_in():
         return redirect(url_for("auth.home"))
     return render_template("users/contact.html")
-
-
-@user_bp.route("/item_details")
-def item_details():
-    if "email" not in session:
-        return redirect(url_for("auth.home"))
-    return render_template("users/item_details.html")
