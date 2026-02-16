@@ -1,0 +1,48 @@
+:root {
+    --primary: #4f46e5;
+    --success: #10b981;
+    --bg-main: #f8fafc;
+    --white: #ffffff;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+}
+
+/* Layout Reset */
+body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); }
+
+.admin-layout { display: flex; min-height: 100vh; }
+
+/* Sidebar stays fixed to the left */
+.sidebar {
+    width: 260px; background: var(--white); border-right: 1px solid var(--border);
+    position: fixed; height: 100vh; padding: 24px 0;
+}
+
+.sidebar-logo { padding: 0 24px 30px; font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+
+.sidebar nav a { display: block; padding: 12px 24px; color: var(--text-muted); text-decoration: none; }
+
+.sidebar nav a.active { background: #eef2ff; color: var(--primary); border-right: 4px solid var(--primary); }
+
+/* Main area pushes right to clear the sidebar */
+.main-content { margin-left: 260px; flex: 1; padding: 40px; }
+
+/* Split View Grid */
+.details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+
+.card { background: var(--white); padding: 30px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+
+/* IMAGE CONTAINER: Prevents the image from being too big */
+.image-box { width: 100%; height: 250px; background: #f1f5f9; border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+
+.image-box img { width: 100%; height: 100%; object-fit: contain; }
+
+.data-label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top: 15px; }
+
+.data-value { font-size: 16px; color: var(--text-dark); margin-bottom: 5px; }
+
+.btn-approve {
+    background: var(--success); color: white; border: none; padding: 12px;
+    width: 100%; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 15px;
+}

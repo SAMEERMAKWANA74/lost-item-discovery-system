@@ -60,10 +60,10 @@
         {% endif %}
       </div>
 
-      <div class="actions">
-        <a href="{{ url_for('user.claim_item', item_id=item.item_id) }}" class="claim-btn">Claim This Item</a>
-        <a href="{{ url_for('search.search_item') }}" class="back-btn">Back to Search</a>
-      </div>
+     <div class="actions">
+    <a href="{{ url_for('claims.claim_item', item_id=item.item_id) }}" class="claim-btn">Claim This Item</a>
+    <a href="{{ url_for('search.search_item') }}" class="back-btn">Back to Search</a>
+</div>
     </div>
   </section>
 </main>
@@ -75,11 +75,11 @@
       <p>Helping people reconnect with their lost belongings.</p>
     </div>
     <div>
-      <h4>Quick Links</h4>
-      <a href="{{ url_for('user.report_item') }}">Report Item</a>
-      <a href="{{ url_for('search.search_item') }}">Search Items</a>
-      <a href="{{ url_for('user.claim_item') }}">Claim Item</a>
-    </div>
+    <h4>Quick Links</h4>
+    <a href="{{ url_for('user.report_item') }}">Report Item</a>
+    <a href="{{ url_for('search.search_item') }}">Search Items</a>
+    <a href="{{ url_for('search.search_item') }}">Claim Item</a>
+</div>
   </div>
   <p class="footer-bottom">
     © 2026 Lost Item Discovery System By Milan Makwana & Sameer Makwana

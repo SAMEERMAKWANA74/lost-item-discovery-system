@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Search Items | Lost Item Discovery System</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='user_styling/search.css') }}">
 </head>
@@ -13,7 +14,7 @@
     <a href="{{ url_for('user.user_dashboard') }}">Home</a>
     <a href="{{ url_for('user.report_item') }}">Report</a>
     <a href="{{ url_for('search.search_item') }}" class="active">Search</a>
-    <a href="{{ url_for('user.claim_item') }}">Claim</a>
+    <a href="{{ url_for('search.search_item') }}">Claim</a>
     <a href="{{ url_for('user.contact_us') }}">Contact</a>
   </div>
 </nav>
@@ -24,81 +25,45 @@
 </header>
 
 <main class="container">
-
   <section class="search-box">
-    <form action="{{ url_for('search.search_item') }}" method="GET" style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-      
-      <input type="text" name="keyword" placeholder="Search item name or keyword..." 
-             value="{{ request.args.get('keyword', '') }}">
-
+    <form action="{{ url_for('search.search_item') }}" method="GET">
+      <input type="text" name="keyword" placeholder="Search item name or keyword..." value="{{ request.args.get('keyword', '') }}">
       <select name="category">
         <option value="">All Categories</option>
-        <option value="Electronics" {% if request.args.get('category') == 'Electronics' %}selected{% endif %}>Electronics</option>
-        <option value="Documents" {% if request.args.get('category') == 'Documents' %}selected{% endif %}>Documents</option>
-        <option value="Accessories" {% if request.args.get('category') == 'Accessories' %}selected{% endif %}>Accessories</option>
-        <option value="Clothing" {% if request.args.get('category') == 'Clothing' %}selected{% endif %}>Clothing</option>
-        <option value="Others" {% if request.args.get('category') == 'Others' %}selected{% endif %}>Others</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Documents">Documents</option>
+        <option value="Accessories">Accessories</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Others">Others</option>
       </select>
-
-      <select name="type">
-        <option value="">All Types</option>
-        <option value="Lost" {% if request.args.get('type') == 'Lost' %}selected{% endif %}>Lost</option>
-        <option value="Found" {% if request.args.get('type') == 'Found' %}selected{% endif %}>Found</option>
-      </select>
-
       <button type="submit">Search</button>
     </form>
   </section>
 
   <section class="results">
     <h2>Search Results ({{ results|length }})</h2>
-
     <div class="results-grid">
-  {% for item in results %}
-  <div class="result-card">
-    <h3>{{ item.item_name }}</h3> 
-    <p><strong>Category:</strong> {{ item.category }}</p>
-    <p><strong>Type:</strong> {{ item.item_type }}</p> 
-    <p><strong>Location:</strong> {{ item.location }}</p>
-    <p><strong>Date:</strong> {{ item.lost_date }}</p> 
-    <a href="{{ url_for('search.item_details', item_id=item.item_id) }}" class="view-btn">View Details</a>
-  </div>
+      {% for item in results %}
+      <div class="result-card">
+        <h3>{{ item.item_name }}</h3> 
+        <p><strong>Category:</strong> {{ item.category }}</p>
+        <p><strong>Location:</strong> {{ item.location }}</p>
+        <div class="card-actions">
+           <a href="{{ url_for('search.item_details', item_id=item.item_id) }}" class="view-btn">View Details</a>
+           <a href="{{ url_for('claims.claim_item', item_id=item.item_id) }}" class="claim-btn">Claim Now</a>
+        </div>
+      </div>
       {% else %}
         <div class="no-results">
-          <p>No items found matching your search. Try different keywords or filters.</p>
+          <p>No items found. Try different keywords.</p>
         </div>
       {% endfor %}
     </div>
   </section>
-
 </main>
 
 <footer class="footer">
-  <div class="footer-grid">
-    <div>
-      <h4>Lost Item System</h4>
-      <p>Helping people recover lost belongings easily.</p>
-    </div>
-
-    <div>
-      <h4>Quick Links</h4>
-      <a href="{{ url_for('user.report_item') }}">Report Item</a>
-      <a href="{{ url_for('user.claim_item') }}">Claim Item</a>
-      <a href="{{ url_for('search.search_item') }}">Search Items</a>
-    </div>
-
-    <div>
-      <h4>Support</h4>
-      <a href="{{ url_for('user.contact_us') }}">Contact</a>
-      <a href="#">FAQs</a>
-      <a href="#">Privacy Policy</a>
-    </div>
-  </div>
-
-  <p class="footer-bottom">
-    © 2026 Lost Item Discovery System By Milan Makwana & Sameer Makwana
-  </p>
+  <p class="footer-bottom">© 2026 Lost Item Discovery System</p>
 </footer>
-
 </body>
 </html>

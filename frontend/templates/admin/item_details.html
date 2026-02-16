@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verification | LIDS Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_styling/item_details.css') }}">
+</head>
+<body>
+
+<div class="admin-layout">
+    <aside class="sidebar">
+        <div class="sidebar-logo">LIDS Admin</div>
+        <nav>
+            <a href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('admin.reported_items_page') }}" class="active">Reported Items</a>
+            <a href="{{ url_for('admin.users_page') }}">Users</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <a href="{{ url_for('admin.reported_items_page') }}" style="color: #4f46e5; text-decoration: none;">← Back to List</a>
+            <h1 style="margin-top: 10px;">Verification: {{ item.item_name }}</h1>
+        </header>
+<div class="details-grid">
+    <section class="card">
+        <h3 style="color: #4f46e5;">Original Report Information</h3>
+        <div class="image-box">
+            <img src="{{ url_for('static', filename=item.image_path) }}" alt="Item Image">
+        </div>
+        
+        <div class="data-label">Item Name</div>
+        <div class="data-value">{{ item.item_name }}</div>
+
+        <div class="data-label">Lost/Found Date</div>
+        <div class="data-value">{{ item.lost_date }}</div>
+
+        <div class="data-label">Location</div>
+        <div class="data-value">{{ item.location }}</div>
+
+        <div class="data-label">Founder's Contact Info</div>
+        <div class="data-value">📞 {{ item.contact_info }}</div>
+
+        <div class="data-label">Description</div>
+        <div class="data-value">{{ item.description }}</div>
+        
+        <div style="background: #fffbeb; padding: 10px; border: 1px dashed #f59e0b; border-radius: 8px;">
+            <div class="data-label" style="color: #b45309;">Secret Unique Mark</div>
+            <div class="data-value" style="font-weight: bold;">{{ item.unique_mark }}</div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 style="color: #10b981;">User Claims</h3>
+        {% if claims %}
+            {% for claim in claims %}
+            <div style="border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                <div class="data-label">Claimant Name</div>
+                <div class="data-value" style="font-weight: bold;">{{ claim.claimant_name }}</div>
+
+                <div class="data-label">Claimant Contact</div>
+                <div class="data-value">📧 {{ claim.claimant_email }}</div>
+                <div class="data-value">📞 {{ claim.claimant_phone }}</div>
+
+                <div class="data-label">Claim Date</div>
+                <div class="data-value">{{ claim.claim_date }}</div>
+
+
+                {% if claim.identity_proof_path %}
+                <div class="data-label">Uploaded Identity Proof</div>
+                <div class="image-box" style="height: 150px; margin-top: 10px; border: 1px solid #ddd;">
+                    <a href="{{ url_for('static', filename=claim.identity_proof_path) }}" target="_blank">
+                        <img src="{{ url_for('static', filename=claim.identity_proof_path) }}" 
+                             style="width: 100%; height: 100%; object-fit: cover;" alt="ID Proof">
+                    </a>
+                </div>
+                <p style="font-size: 11px; color: #64748b;">Click image to enlarge</p>
+                {% endif %}
+
+                <form action="{{ url_for('admin.approve_claim', claim_id=claim.claim_id, item_id=item.item_id) }}" method="POST" style="margin-top: 20px;">
+                    <button type="submit" class="btn-approve">Approve & Close Item</button>
+                </form>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align: center; color: #64748b; margin-top: 50px;">No claims submitted yet.</p>
+        {% endif %}
+    </section>
+</div>    </main>
+</div>
+
+</body>
+</html>

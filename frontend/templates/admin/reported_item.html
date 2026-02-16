@@ -1,83 +1,67 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Report Lost Item | Lost Item Discovery System</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='admin_styling/reported_item.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Items | LIDS Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_styling/reported_item.css') }}">
 </head>
 <body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-logo">LIDS Admin</div>
+            <nav>
+                <a href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('admin.reported_items_page') }}" class="active">Reported Items</a>
+                <a href="{{ url_for('admin.users_page') }}">Users</a>
+                <a href="#">Claim Requests</a>
+            </nav>
+            <div class="sidebar-bottom">
+                <a href="{{ url_for('auth.logout') }}" class="logout">Logout</a>
+            </div>
+        </aside>
 
-  <!-- HEADER -->
+        <main class="main-content">
+            <header>
+                <h1>Manage Reported Items</h1>
+                <p>Review and manage all lost and found items reported by users.</p>
+            </header>
 
-  <header class="main-header">
-    <h1>Lost Item Discovery System</h1>
-    <p>Report your lost item easily and securely</p>
-  </header>
-
-  <!-- REPORT FORM -->
-
-  <section class="form-container">
-    <h2>Report Lost Item</h2>
-
-```
-<form action="#" method="post">
-
-  <div class="form-group">
-    <label for="itemName">Item Name</label>
-    <input type="text" id="itemName" placeholder="e.g. Mobile Phone, Wallet" required>
-  </div>
-
-  <div class="form-group">
-    <label for="category">Item Category</label>
-    <select id="category" required>
-      <option value="">-- Select Category --</option>
-      <option>Electronics</option>
-      <option>Documents</option>
-      <option>Wallet / Purse</option>
-      <option>Bags</option>
-      <option>Accessories</option>
-      <option>Others</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="location">Last Seen Location</label>
-    <input type="text" id="location" placeholder="e.g. Bus Stand, Library" required>
-  </div>
-
-  <div class="form-group">
-    <label for="date">Date Lost</label>
-    <input type="date" id="date" required>
-  </div>
-
-  <div class="form-group">
-    <label for="description">Item Description</label>
-    <textarea id="description" rows="4" placeholder="Color, brand, any identification marks"></textarea>
-  </div>
-
-  <div class="form-group">
-    <label for="image">Upload Item Image (optional)</label>
-    <input type="file" id="image">
-  </div>
-
-  <div class="form-group checkbox">
-    <input type="checkbox" id="confirm" required>
-    <label for="confirm">I confirm that the above information is true and correct</label>
-  </div>
-
-  <button type="submit" class="btn-submit">Submit Report</button>
-
-</form>
-```
-
-  </section>
-
-  <!-- FOOTER -->
-
-  <footer class="main-footer">
-    <p>&copy; 2026 Lost Item Discovery System. All Rights Reserved.</p>
-  </footer>
-
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Type</th>
+                        <th>Item Name</th>
+                        <th>Category</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>
+                            <img src="{{ url_for('static', filename=item.image_path) }}" class="item-img" alt="item">
+                        </td>
+                        <td><strong>{{ item.item_type }}</strong></td>
+                        <td>{{ item.item_name }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.location }}</td>
+                        <td>
+                            <span class="status-badge status-{{ item.status }}">
+                                {{ item.status }}
+                            </span>
+                        </td>
+                        <td>
+<a href="{{ url_for('admin.item_details', item_id=item.item_id) }}" class="btn-action btn-view">Details</a>                            <a href="#" style="color: red; margin-left: 10px;">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+    </div>
 </body>
 </html>

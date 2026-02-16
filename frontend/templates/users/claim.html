@@ -4,29 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Claim Lost Item | Lost Item Discovery System</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='user_styling/claim.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='user_styling/claim.css') }}">
 </head>
 <body>
 
-  <!-- HERO -->
   <section class="hero">
     <h1>Claim Your Lost Item</h1>
     <p>Verify ownership and recover your belongings securely</p>
   </section>
 
-  <!-- MAIN CONTENT -->
   <main class="container">
     <div class="claim-card">
 
       <h2>Claim Lost Item</h2>
       <p>Please provide accurate details to verify your ownership.</p>
 
-      <form class="claim-form" action="#" method="post">
-
-        <div class="form-group">
-          <label for="itemId">Item ID / Reference Number</label>
-          <input type="text" id="itemId" name="itemId" placeholder="Enter item ID" required />
-        </div>
+      <form class="claim-form" action="{{ url_for('claims.claim_item', item_id=item_id) }}" method="post" enctype="multipart/form-data">
 
         <div class="form-group">
           <label for="itemName">Item Name</label>
@@ -45,8 +38,7 @@
 
         <div class="form-group">
           <label for="description">Item Description</label>
-          <textarea id="description" name="description" rows="4"
-            placeholder="Color, brand, special marks" required></textarea>
+          <textarea id="description" name="description" rows="4" placeholder="Color, brand, special marks" required></textarea>
         </div>
 
         <div class="form-section">
@@ -69,8 +61,7 @@
 
           <div class="form-group">
             <label for="identityProof">Upload Identity Proof</label>
-            <input type="file" id="identityProof" name="identityProof"
-              accept="image/*,application/pdf" />
+            <input type="file" id="identityProof" name="identityProof" accept="image/*,application/pdf" />
           </div>
         </div>
 
@@ -82,16 +73,14 @@
         </div>
 
         <div class="form-actions">
-          <button type="submit">Submit Claim</button>
+          <button type="submit" class="primary-btn">Submit Claim</button>
           <button type="reset" class="reset">Reset</button>
         </div>
 
       </form>
-
     </div>
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-bottom">
       &copy; 2026 Lost Item Discovery System. All rights reserved.

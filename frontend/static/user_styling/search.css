@@ -6,6 +6,7 @@
   --text: #111827;
   --muted: #6b7280;
   --border: #e5e7eb;
+  --success: #4CAF50;
 }
 
 /* RESET */
@@ -22,7 +23,7 @@ body {
   line-height: 1.5;
 }
 
-/* NAVBAR (Matches your Index style) */
+/* NAVBAR */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -87,7 +88,7 @@ body {
 
 .search-box form {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto; /* Name, Category, Type, Button */
+  grid-template-columns: 2fr 1fr auto;
   gap: 15px;
   align-items: center;
 }
@@ -169,21 +170,38 @@ body {
   color: var(--text);
 }
 
-.view-btn {
-  display: block;
-  text-align: center;
+.card-actions {
+  display: flex;
+  gap: 10px;
   margin-top: 20px;
+}
+
+.view-btn, .claim-btn {
+  flex: 1;
+  text-align: center;
   text-decoration: none;
-  background: var(--primary);
-  color: white;
   padding: 12px;
   border-radius: 10px;
   font-weight: 500;
   transition: 0.3s;
 }
 
+.view-btn {
+  background: var(--primary);
+  color: white;
+}
+
 .view-btn:hover {
   background: var(--primary-dark);
+}
+
+.claim-btn {
+  background-color: var(--success);
+  color: white;
+}
+
+.claim-btn:hover {
+  filter: brightness(90%);
 }
 
 .no-results {
@@ -200,39 +218,11 @@ body {
 .footer {
   background: #111827;
   color: #d1d5db;
-  padding: 80px 5% 40px;
-}
-
-.footer-grid {
-  max-width: 1200px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-}
-
-.footer h4 {
-  color: white;
-  margin-bottom: 1.5rem;
-}
-
-.footer a {
-  display: block;
-  color: #9ca3af;
-  text-decoration: none;
-  margin-bottom: 0.8rem;
-  transition: 0.2s;
-}
-
-.footer a:hover {
-  color: white;
+  padding: 40px 5%;
 }
 
 .footer-bottom {
   text-align: center;
-  margin-top: 60px;
-  padding-top: 20px;
-  border-top: 1px solid #374151;
   font-size: 0.9rem;
 }
 

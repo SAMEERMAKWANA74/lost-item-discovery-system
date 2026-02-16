@@ -18,11 +18,6 @@ def report_item():
         return redirect(url_for("auth.home"))
     return render_template("users/report.html")
 
-@user.route("/claim")
-def claim_item():
-    if not is_logged_in():
-        return redirect(url_for("auth.home"))
-    return render_template("users/claim.html")
 
 @user.route("/contact")
 def contact_us():
