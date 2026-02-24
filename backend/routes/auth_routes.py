@@ -23,11 +23,7 @@ def login():
             conn = get_connection()
             cursor = conn.cursor(dictionary=True)
 
-            # Selecting the user record
-            cursor.execute(
-                "SELECT * FROM users WHERE LOWER(email)=%s",
-                (email_input,)
-            )
+            cursor.execute("SELECT * FROM users WHERE LOWER(email)=%s", (email_input,))
             user_data = cursor.fetchone()
 
             cursor.close()
@@ -37,12 +33,16 @@ def login():
                 flash("❌ Email not found.", "danger")
                 return redirect(url_for("auth.login"))
 
-            # Handle PHP-style bcrypt hashes if necessary
+            # --- SECURITY CHECK: IS THE USER BLOCKED? ---
+            if user_data.get("status") == "blocked":
+                flash("🚫 Your account has been blocked. Please contact the administrator.", "danger")
+                return redirect(url_for("auth.login"))
+
             stored_hash = user_data["password"].replace("$2y$", "$2b$", 1)
 
             if bcrypt.check_password_hash(stored_hash, password_input):
-                # IMPORTANT: Set these session variables for the whole app to use
-                session["user_id"] = user_data["id"]  # Match column name in your DB
+                session["user_id"] = user_data["id"]
+                session["full_name"] = user_data.get("full_name") # Store name in session
                 session["email"] = user_data["email"]
                 session["role"] = user_data["role"].lower()
 
@@ -63,7 +63,10 @@ def login():
 @auth.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
+        # Capture all 4 fields from your new signup.html
+        full_name = request.form.get("full_name").strip()
         email = request.form.get("email").strip().lower()
+        phone = request.form.get("phone").strip()
         password = request.form.get("password").strip()
 
         hashed_pw = bcrypt.generate_password_hash(password).decode("utf-8")
@@ -72,9 +75,10 @@ def signup():
             conn = get_connection()
             cursor = conn.cursor()
 
+            # Updated query to include full_name, phone, and default status
             cursor.execute(
-                "INSERT INTO users (email, password, role) VALUES (%s,%s,%s)",
-                (email, hashed_pw, "user")
+                "INSERT INTO users (full_name, email, phone, password, role, status) VALUES (%s, %s, %s, %s, %s, %s)",
+                (full_name, email, phone, hashed_pw, "user", "active")
             )
             conn.commit()
 
@@ -84,8 +88,9 @@ def signup():
             flash("✅ Signup successful. Please login.", "success")
             return redirect(url_for("auth.login"))
 
-        except:
-            flash("❌ Signup failed. Email exists.", "danger")
+        except Exception as e:
+            # Most likely a duplicate email error
+            flash("❌ Signup failed. Email may already be registered.", "danger")
             return redirect(url_for("auth.signup"))
 
     return render_template("signup.html")

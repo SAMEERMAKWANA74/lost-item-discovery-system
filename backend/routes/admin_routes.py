@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, redirect, url_for, session, flash,
 from functools import wraps
 from db import get_connection
 
-# Define the blueprint
 admin = Blueprint("admin", __name__, url_prefix="/admin")
 
 # --- Decorator to protect admin routes ---
@@ -15,14 +14,14 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# --- Admin Routes ---
-
+# --- Admin Dashboard ---
 @admin.route("/dashboard")
 @admin_required
 def admin_dashboard():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
     
+    # Summary statistics for the dashboard cards
     cursor.execute("SELECT COUNT(*) as total FROM reported_items")
     total_reports = cursor.fetchone()['total']
     
@@ -44,6 +43,7 @@ def admin_dashboard():
                            resolved_items=resolved_items, 
                            total_users=total_users)
 
+# --- Item Management ---
 @admin.route("/reported-items")
 @admin_required
 def reported_items_page():
@@ -61,11 +61,10 @@ def item_details(item_id):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
 
-    # Fetch item data
     cursor.execute("SELECT * FROM reported_items WHERE item_id = %s", (item_id,))
     item = cursor.fetchone()
 
-    # JOIN with users using email (since username column doesn't exist)
+    # Fetching claims with user email for verification
     query = """
         SELECT c.*, u.email 
         FROM claims c
@@ -79,25 +78,6 @@ def item_details(item_id):
     conn.close()
     return render_template("admin/item_details.html", item=item, claims=claims)
 
-@admin.route("/approve-claim/<int:claim_id>/<int:item_id>", methods=["POST"])
-@admin_required
-def approve_claim(claim_id, item_id):
-    conn = get_connection()
-    cursor = conn.cursor()
-    try:
-        cursor.execute("UPDATE claims SET claim_status = 'approved' WHERE claim_id = %s", (claim_id,))
-        cursor.execute("UPDATE claims SET claim_status = 'rejected' WHERE item_id = %s AND claim_id != %s", (item_id, claim_id))
-        cursor.execute("UPDATE reported_items SET status = 'claimed' WHERE item_id = %s", (item_id,))
-        conn.commit()
-        flash("✅ Claim approved!", "success")
-    except Exception as e:
-        conn.rollback()
-        flash(f"❌ Error: {e}", "danger")
-    finally:
-        cursor.close()
-        conn.close()
-    return redirect(url_for('admin.reported_items_page'))
-
 @admin.route("/delete-item/<int:item_id>", methods=["POST"])
 @admin_required
 def delete_item(item_id):
@@ -107,7 +87,7 @@ def delete_item(item_id):
         cursor.execute("DELETE FROM claims WHERE item_id = %s", (item_id,))
         cursor.execute("DELETE FROM reported_items WHERE item_id = %s", (item_id,))
         conn.commit()
-        flash("🗑️ Item deleted.", "warning")
+        flash("🗑️ Item and associated claims deleted.", "warning")
     except Exception as e:
         conn.rollback()
         flash(f"❌ Error: {e}", "danger")
@@ -116,13 +96,92 @@ def delete_item(item_id):
         conn.close()
     return redirect(url_for('admin.reported_items_page'))
 
+# --- User Management ---
 @admin.route("/users")
 @admin_required
 def users_page():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT id, email, role FROM users")
+    # Ensure database has full_name, phone, and status columns
+    cursor.execute("SELECT id, full_name, email, phone, role, status FROM users")
     all_users = cursor.fetchall()
     cursor.close()
     conn.close()
     return render_template("admin/users.html", users=all_users)
+
+@admin.route("/block-user/<int:user_id>", methods=["POST"])
+@admin_required
+def block_user(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE users SET status = 'blocked' WHERE id = %s", (user_id,))
+        conn.commit()
+        flash("🚫 User blocked successfully.", "success")
+    except Exception as e:
+        flash(f"❌ Error: {e}", "danger")
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for('admin.users_page'))
+
+@admin.route("/unblock-user/<int:user_id>", methods=["POST"])
+@admin_required
+def unblock_user(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE users SET status = 'active' WHERE id = %s", (user_id,))
+        conn.commit()
+        flash("✅ User unblocked successfully.", "success")
+    except Exception as e:
+        flash(f"❌ Error: {e}", "danger")
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for('admin.users_page'))
+
+# --- Claim Actions ---
+@admin.route("/approve_claim/<int:claim_id>/<int:item_id>", methods=["POST"])
+@admin_required
+def approve_claim(claim_id, item_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        # Approve the selected claim
+        cursor.execute("UPDATE claims SET claim_status = 'approved' WHERE claim_id = %s", (claim_id,))
+        # Automatically reject all other claims for this specific item
+        cursor.execute("UPDATE claims SET claim_status = 'rejected' WHERE item_id = %s AND claim_id != %s", (item_id, claim_id))
+        # Mark the item itself as claimed
+        cursor.execute("UPDATE reported_items SET status = 'claimed' WHERE item_id = %s", (item_id,))
+        
+        conn.commit()
+        flash("✅ Claim approved and item closed!", "success")
+    except Exception as e:
+        conn.rollback()
+        flash(f"❌ Error: {e}", "danger")
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for('admin.reported_items_page'))
+@admin.route("/delete-user/<int:user_id>", methods=["POST"])
+@admin_required
+def delete_user(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        # 1. Delete associated claims first to avoid foreign key errors
+        cursor.execute("DELETE FROM claims WHERE claimant_id = %s", (user_id,))
+        
+        # 2. Delete the user
+        cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
+        
+        conn.commit()
+        flash("🗑️ User and their claims have been permanently deleted.", "warning")
+    except Exception as e:
+        conn.rollback()
+        flash(f"❌ Error deleting user: {e}", "danger")
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for('admin.users_page'))

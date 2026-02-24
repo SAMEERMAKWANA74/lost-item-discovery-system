@@ -18,10 +18,11 @@
 
     <section class="login-container">
         <div class="login-card">
-            {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
               {% if messages %}
-                {% for message in messages %}
-                  <div class="alert" style="color: #d9534f; background: #f2dede; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #ebccd1;">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}" style="padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid; 
+                       {% if category == 'danger' %} color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; {% else %} color: #155724; background-color: #d4edda; border-color: #c3e6cb; {% endif %}">
                       {{ message }}
                   </div>
                 {% endfor %}
@@ -33,13 +34,23 @@
 
             <form method="POST" action="{{ url_for('auth.signup') }}">
                 <div class="input-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" placeholder="John Doe" required>
+                </div>
+
+                <div class="input-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" placeholder="you@example.com" required>
                 </div>
 
                 <div class="input-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="9876543210" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number">
+                </div>
+
+                <div class="input-group">
                     <label for="password">Create Password</label>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required minlength="6">
                 </div>
 
                 <button type="submit" class="btn">Register Now</button>

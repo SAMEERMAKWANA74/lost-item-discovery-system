@@ -19,10 +19,13 @@
 
     <section class="login-container">
         <div class="login-card">
-            {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
               {% if messages %}
-                {% for message in messages %}
-                  <div class="alert" style="color: #d9534f; background: #f2dede; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #ebccd1;">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}" style="padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid; 
+                       {% if category == 'danger' %} color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; 
+                       {% elif category == 'success' %} color: #155724; background-color: #d4edda; border-color: #c3e6cb; 
+                       {% else %} color: #856404; background-color: #fff3cd; border-color: #ffeeba; {% endif %}">
                       {{ message }}
                   </div>
                 {% endfor %}
