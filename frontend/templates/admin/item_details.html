@@ -2,8 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification | LIDS Admin</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='admin_styling/item_details.css') }}">
+    <style>
+        /* Ensuring a clear 2-column comparison layout */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .secret-mark-highlight {
+            background: #fff7ed;
+            padding: 15px;
+            border: 2px dashed #f97316;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .claim-card {
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .id-proof-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,21 +45,33 @@
         <nav>
             <a href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a>
             <a href="{{ url_for('admin.reported_items_page') }}" class="active">Reported Items</a>
+            <a href="{{ url_for('admin.claims_page') }}">Claim Requests</a>
             <a href="{{ url_for('admin.users_page') }}">Users</a>
         </nav>
     </aside>
 
     <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}" style="padding: 10px; margin-bottom: 15px; border-radius: 5px; background: #dcfce7; color: #166534;">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
         <header>
             <a href="{{ url_for('admin.reported_items_page') }}" class="back-link">← Back to List</a>
-            <h1>Verification: {{ item.item_name }}</h1>
+            <h1>Comparison: {{ item.item_name }}</h1>
         </header>
 
         <div class="details-grid">
+            
             <section class="card">
                 <h3 class="title-primary">Original Report Information</h3>
                 <div class="image-box">
-                    <img src="{{ url_for('static', filename=item.image_path) }}" alt="Item Image">
+                    <img src="{{ url_for('static', filename=item.image_path) }}" alt="Item Image" style="width:100%; border-radius: 8px;">
                 </div>
                 
                 <div class="data-label">Item Name</div>
@@ -39,63 +83,64 @@
                 <div class="data-label">Location</div>
                 <div class="data-value">{{ item.location }}</div>
 
-                <div class="data-label">Founder's Contact Info</div>
-                <div class="data-value">📞 {{ item.contact_info }}</div>
-
                 <div class="data-label">Description</div>
                 <div class="data-value">{{ item.description }}</div>
                 
-                <div class="secret-mark-container">
-                    <div class="data-label mark-label">Secret Unique Mark</div>
-                    <div class="data-value mark-value">{{ item.unique_mark }}</div>
+                <div class="secret-mark-highlight">
+                    <div class="data-label" style="color: #c2410c; font-weight: bold;">Secret Unique Mark (Verify this)</div>
+                    <div class="data-value" style="font-size: 1.1rem; color: #9a3412; font-weight: bold;">
+                        {{ item.unique_mark }}
+                    </div>
                 </div>
             </section>
 
             <section class="card">
-                <h3 class="title-success">User Claims</h3>
+                <h3 class="title-success">User Claims (Active Only)</h3>
+                
                 {% if claims %}
                     {% for claim in claims %}
-                    <div class="claim-card">
-                        <div class="data-label">Claimant Name</div>
-                        <div class="data-value claimant-name">{{ claim.claimant_name }}</div>
+                        {# Only show Approved or Pending, hide Rejected #}
+                        {% if claim.claim_status != 'rejected' %}
+                            <div class="claim-card">
+                                <div class="data-label">Claimant Name</div>
+                                <div class="data-value"><strong>{{ claim.claimant_name }}</strong></div>
 
-                        <div class="data-label">Claimant Contact</div>
-                        <div class="data-value">📧 {{ claim.email }}</div>
-                        <div class="data-value">📞 {{ claim.claimant_phone }}</div>
+                                <div class="data-label">Contact Info</div>
+                                <div class="data-value">📧 {{ claim.email }}</div>
+                                <div class="data-value">📞 {{ claim.claimant_phone }}</div>
 
-                        <div class="data-label">Claim Date</div>
-                        <div class="data-value">{{ claim.claim_date }}</div>
+                                {% if claim.identity_proof_path %}
+                                <div class="data-label">Uploaded Proof</div>
+                                <a href="{{ url_for('static', filename=claim.identity_proof_path) }}" target="_blank">
+                                    <img src="{{ url_for('static', filename=claim.identity_proof_path) }}" class="id-proof-img" alt="ID Proof">
+                                </a>
+                                <p style="font-size: 0.75rem; color: #666;">Click image to enlarge</p>
+                                {% endif %}
 
-                        {% if claim.identity_proof_path %}
-                        <div class="data-label">Uploaded Identity Proof</div>
-                        <div class="image-box id-proof-box">
-                            <a href="{{ url_for('static', filename=claim.identity_proof_path) }}" target="_blank">
-                                <img src="{{ url_for('static', filename=claim.identity_proof_path) }}" alt="ID Proof">
-                            </a>
-                        </div>
-                        <p class="helper-text">Click image to enlarge</p>
+                                <div class="data-label" style="margin-top:10px;">Current Status</div>
+                                <div class="status-badge status-{{ claim.claim_status }}">
+                                    {{ claim.claim_status | capitalize }}
+                                </div>
+
+                                <div class="button-group" style="margin-top: 15px; display: flex; gap: 10px;">
+                                    {% if claim.claim_status == 'pending' %}
+                                        <form action="{{ url_for('admin.approve_claim', claim_id=claim.claim_id, item_id=item.item_id) }}" method="POST">
+                                            <button type="submit" class="btn btn-approve" style="background: #16a34a; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Approve</button>
+                                        </form>
+                                        
+                                        <form action="{{ url_for('admin.reject_claim', claim_id=claim.claim_id, item_id=item.item_id) }}" method="POST">
+                                            <button type="submit" class="btn btn-reject" style="background: #dc2626; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Reject</button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
                         {% endif %}
-
-                        <div class="data-label">Status</div>
-                        <div class="status-badge status-{{ claim.claim_status }}">
-                            {{ claim.claim_status }}
-                        </div>
-
-                        <div class="button-group">
-                            <form action="{{ url_for('admin.approve_claim', claim_id=claim.claim_id, item_id=item.item_id) }}" method="POST">
-                                <button type="submit" class="btn btn-approve">Approve</button>
-                            </form>
-                            
-                            <form action="{{ url_for('admin.reject_claim', claim_id=claim.claim_id, item_id=item.item_id) }}" method="POST">
-                                <button type="submit" class="btn btn-reject">Reject</button>
-                            </form>
-                        </div>
-                    </div>
                     {% endfor %}
                 {% else %}
-                    <p class="empty-state">No claims submitted yet.</p>
+                    <p class="empty-state">No pending claims found for this item.</p>
                 {% endif %}
             </section>
+
         </div>
     </main>
 </div>

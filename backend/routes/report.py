@@ -70,3 +70,5 @@ def report_item():
 
     # GET: Show the reporting form
     return render_template('users/report.html')
+
+    

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Claims | LIDS</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='user_styling/myclaims.css') }}">
+</head>
+<body>
+
+    <!-- Simple Navbar -->
+    <nav class="navbar">
+        <div class="logo">LIDS</div>
+        <div class="nav-links">
+            <a href="{{ url_for('auth.home') }}">Home</a>
+<a href="{{ url_for('search.search_item') }}">Search</a>
+            <a href="{{ url_for('user.user_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1>My Claim Requests</h1>
+            <p>Track the status of items you have claimed.</p>
+        </header>
+
+        <div class="claims-list">
+            {% if claims %}
+                {% for claim in claims %}
+                <div class="claim-card">
+                    <div class="claim-info">
+                        <h3>{{ claim.item_name }}</h3>
+                        <span class="category">{{ claim.category }}</span>
+                        <p class="date">Requested on: {{ claim.claim_date.strftime('%d %b %Y') }}</p>
+                    </div>
+                    
+                    <div class="claim-status">
+                        <!-- Dynamic Status Badge -->
+                        <span class="status-badge {{ claim.claim_status }}">
+                            {{ claim.claim_status | capitalize }}
+                        </span>
+                        
+                        {% if claim.claim_status == 'approved' %}
+                            <p class="status-note">Please contact the admin for collection.</p>
+                        {% elif claim.claim_status == 'rejected' %}
+                            <p class="status-note">Your proof was insufficient.</p>
+                        {% else %}
+                            <p class="status-note">Awaiting admin review.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p>You haven't made any claim requests yet.</p>
+                    <a href="{{ url_for('search.search_item') }}" class="btn-primary">Search for Items</a>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+</body>
+</html>

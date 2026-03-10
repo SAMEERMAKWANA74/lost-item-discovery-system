@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Requests | Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_styling/claim.css') }}">
+</head>
+<body>
+
+    <!-- Top Navbar -->
+    <nav class="admin-navbar">
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="logo">Admin Panel</a>
+        <div class="admin-profile">
+            <span>Admin</span>
+            <img src="https://ui-avatars.com" alt="Profile">
+        </div>
+    </nav>
+
+    <div class="admin-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('admin.reported_items_page') }}">Reported Items</a>
+            <a href="{{ url_for('admin.claims_page') }}" class="active">Claim Requests</a>
+            <a href="{{ url_for('admin.users_page') }}">Manage Users</a>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <h1>Claim Requests</h1>
+            <p class="subtitle">Review and manage item ownership claims</p>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}" style="padding: 15px; margin-bottom: 20px; border-radius: 8px; background: {% if category == 'success' %}#dcfce7; color: #166534;{% else %}#fee2e2; color: #991b1b;{% endif %}">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Claim ID</th>
+                            <th>Item ID</th>
+                            <th>Claimant</th>
+                            <th>Contact Info</th>
+                            <th>Proof</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead><tbody>
+    {% if claims %}
+        {% for claim in claims %}
+        <tr>
+            <td>#{{ claim.claim_id }}</td>
+            <td>ITM-{{ claim.item_id }}</td>
+            <td><strong>{{ claim.claimant_name }}</strong></td>
+            <td>
+                <div style="font-size: 0.85rem; color: #666;">
+                    {{ claim.claimant_email }}<br>
+                    {{ claim.claimant_phone }}
+                </div>
+            </td>
+            <td>
+                <span class="status-badge {{ claim.claim_status }}">
+                    {{ claim.claim_status | capitalize }}
+                </span>
+            </td>
+            <td>{{ claim.claim_date }}</td>
+            <td>
+                <div style="display: flex; gap: 8px;">
+                    <a href="{{ url_for('admin.item_details', item_id=claim.item_id) }}" class="btn btn-approve" style="text-decoration: none; background-color: #3b82f6;">
+                        Compare
+                    </a>
+                    
+                    <form action="{{ url_for('admin.reject_claim', claim_id=claim.claim_id, item_id=claim.item_id) }}" method="POST">
+                        <button type="submit" class="btn btn-reject">Reject</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="7" style="text-align: center; padding: 40px;">No pending claim requests found.</td>
+        </tr>
+    {% endif %}
+</tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

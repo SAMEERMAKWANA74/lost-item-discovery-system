@@ -7,6 +7,9 @@ from routes.user_routes import user
 from routes.report import report_bp
 from routes.search import search_bp 
 from routes.claim_routes import claims_bp  
+from routes.myclaims import myclaims_bp
+# In backend/app.py
+from routes.contact import contact_bp
 
 # 1. First, define the paths
 template_dir = os.path.abspath("../frontend/templates")
@@ -22,6 +25,8 @@ app.register_blueprint(admin, url_prefix="/admin")
 app.register_blueprint(user, url_prefix="/user")
 app.register_blueprint(report_bp) 
 app.register_blueprint(search_bp, url_prefix="/user")
+app.register_blueprint(myclaims_bp, url_prefix="/user")
+app.register_blueprint(contact_bp, url_prefix="/user")
 
 # ADD THIS LINE TO FIX THE BUILD ERROR:
 app.register_blueprint(claims_bp, url_prefix="/user") 

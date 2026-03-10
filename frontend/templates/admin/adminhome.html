@@ -7,28 +7,22 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='admin_styling/adminhome.css') }}">
 </head>
 <body>
-
   <!-- ADMIN NAVBAR -->
   <header class="admin-navbar">
     <div class="logo">LIDS Admin</div>
     <div class="admin-profile">
-      <span>Sameer</span>
-      <img src="https://tse4.mm.bing.net/th/id/OIP.3UPEQet6mcGYsz77Oi7RkQHaHa?pid=Api&P=0&h=180" alt="Admin" />
+        <span>{{ session.get('full_name', 'Admin') }}</span>
+        <img src="https://tse4.mm.bing.net/th/id/OIP.3UPEQet6mcGYsz77Oi7RkQHaHa?pid=Api&P=0&h=180" alt="Admin" />
     </div>
-  </header>
-
+</header>
   <!-- MAIN LAYOUT -->
   <div class="admin-layout">
-
     <!-- SIDEBAR -->
 <aside class="sidebar">
   <a href="{{ url_for('admin.admin_dashboard') }}" class="active">Dashboard</a>
   <a href="{{ url_for('admin.reported_items_page') }}">Reported Items</a>
   <a href="{{ url_for('admin.users_page') }}">Users</a>
-  
-  <a href="#">Claim Requests</a>
-  <a href="#">Settings</a>
-  
+  <a href="{{ url_for('admin.claims_page') }}">Claim Requests</a>
   <a href="{{ url_for('auth.logout') }}" class="logout">Logout</a>
 </aside>
 
@@ -37,39 +31,45 @@
       <h1>Dashboard Overview</h1>
       <p class="subtitle">Quick insights of the system</p>
 
-      <!-- STATS -->
-      <section class="stats">
-        <div class="stat-card">
-          <h3>Total Reports</h3>
-          <p>128</p>
-        </div>
-        <div class="stat-card">
-          <h3>Pending Claims</h3>
-          <p>24</p>
-        </div>
-        <div class="stat-card">
-          <h3>Resolved Items</h3>
-          <p>79</p>
-        </div>
-        <div class="stat-card">
-          <h3>Users</h3>
-          <p>56</p>
-        </div>
-      </section>
-
-      <!-- RECENT ACTIVITY -->
-      <section class="activity">
-        <h2>Recent Activity</h2>
-        <ul>
-          <li>New lost item reported</li>
-          <li>Claim request submitted</li>
-          <li>Item successfully resolved</li>
-          <li>New user registered</li>
-        </ul>
-      </section>
-
+      <!-- STATS --><section class="stats">
+  <div class="stat-card">
+    <h3>Total Reports</h3>
+    <p>{{ total_reports }}</p>
+  </div>
+  
+  <div class="stat-card">
+    <h3>Pending Claims</h3>
+    <p>{{ pending_claims }}</p>
+  </div>
+  
+  <div class="stat-card">
+    <h3>Resolved Items</h3>
+    <p>{{ resolved_items }}</p>
+  </div>
+  
+  <div class="stat-card">
+    <h3>Users</h3>
+    <p>{{ total_users }}</p>
+  </div>
+</section>
+      <!-- RECENT ACTIVITY --><section class="activity">
+  <h2>Recent Activity</h2>
+  <ul>
+    {% if recent_items %}
+      {% for item in recent_items %}
+        <li>
+          <strong>New item reported:</strong> {{ item.item_name }} 
+          <span style="color: #888; font-size: 0.8rem; float: right;">
+            {{ item.created_at.strftime('%Y-%m-%d') if item.created_at else '' }}
+          </span>
+        </li>
+      {% endfor %}
+    {% else %}
+      <li>No recent activity found.</li>
+    {% endif %}
+  </ul>
+</section>
     </main>
   </div>
-
 </body>
-</html>
+</html>     

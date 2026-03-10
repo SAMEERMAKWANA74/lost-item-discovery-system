@@ -5,24 +5,26 @@ from db import get_connection
 
 claims_bp = Blueprint('claims', __name__)
 
-# Folder to save proof files
-UPLOAD_FOLDER = 'static/uploads/proofs'
+# Folder to save proof files - ensure path matches your structure
+UPLOAD_FOLDER = os.path.abspath("../frontend/static/uploads/proofs")
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
-
 @claims_bp.route('/claim/<int:item_id>', methods=['GET', 'POST'])
 def claim_item(item_id):
-    # Retrieve the user_id set in auth_routes.py
     claimant_id = session.get('user_id')
     
-    # Check if user is logged in
     if not claimant_id:
         flash("Please login first to claim an item.", "danger")
         return redirect(url_for('auth.login'))
 
     if request.method == 'POST':
-        item_name = request.form.get('itemName')
-        description = request.form.get('description')
+        # Get data from the form fields
+        claimant_name = request.form.get('fullName')
+        claimant_email = request.form.get('email')
+        claimant_phone = request.form.get('phone')
+        # Note: You have 'description' in the form, but no column for it in the 'claims' table screenshot.
+        # If you want to save description, you should add a column to your DB first.
+
         file = request.files.get('identityProof')
 
         # File Upload Logic
@@ -38,17 +40,32 @@ def claim_item(item_id):
             conn = get_connection()
             cursor = conn.cursor()
 
-            # Combine form text and file path for the 'proof' column
-            proof_details = f"Desc: {description} | File: {proof_file_path}"
-
+            # Updated query to match your screenshot columns exactly
             query = """
-                INSERT INTO claims (item_id, claimant_id, proof, claim_status) 
-                VALUES (%s, %s, %s, 'pending')
+                INSERT INTO claims (
+                    item_id, 
+                    claimant_id, 
+                    claimant_name, 
+                    claimant_email, 
+                    claimant_phone, 
+                    identity_proof_path, 
+                    claim_status
+                ) 
+                VALUES (%s, %s, %s, %s, %s, %s, 'pending')
             """
-            cursor.execute(query, (item_id, claimant_id, proof_details))
+            
+            # Execute with all the details from the form
+            cursor.execute(query, (
+                item_id, 
+                claimant_id, 
+                claimant_name, 
+                claimant_email, 
+                claimant_phone, 
+                proof_file_path
+            ))
             
             conn.commit()
-            flash("Claim submitted successfully! Check your dashboard for updates.", "success")
+            flash("Claim submitted successfully!", "success")
             return redirect(url_for('user.user_dashboard'))
 
         except Exception as e:
@@ -61,5 +78,4 @@ def claim_item(item_id):
                 cursor.close()
                 conn.close()
 
-    # GET request: Show the form
     return render_template('users/claim.html', item_id=item_id)

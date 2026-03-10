@@ -14,11 +14,9 @@
                 <a href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a>
                 <a href="{{ url_for('admin.reported_items_page') }}" class="active">Reported Items</a>
                 <a href="{{ url_for('admin.users_page') }}">Users</a>
-                <a href="#">Claim Requests</a>
+                <a href="{{url_for('admin.claims_page')}}">Claim Requests</a>
             </nav>
-            <div class="sidebar-bottom">
-                <a href="{{ url_for('auth.logout') }}" class="logout">Logout</a>
-            </div>
+        
         </aside>
 
         <main class="main-content">
